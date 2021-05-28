@@ -11,7 +11,6 @@ public class StringUtil
 		for (int i=1; i<n; i++) {
 			cadena += Character.toString(c);
 		}
-		System.out.println(cadena);
 		return cadena;
 	}
 
@@ -24,7 +23,6 @@ public class StringUtil
 		while (s.length()<n){
 			s = Character.toString(c) + s;
 		}
-		System.out.println(s);
 		return s;
 	}
 
@@ -69,7 +67,7 @@ public class StringUtil
 	{
 		int maxLength = maxLength(arr);
 		for (int i=0; i<arr.length; i++) {
-			lpad(arr[i],maxLength,'0');
+			arr[i] = lpad(arr[i],maxLength,'0');
 		}
 	}
 }

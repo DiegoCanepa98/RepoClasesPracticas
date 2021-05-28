@@ -11,31 +11,41 @@ public class RadixSortEjerc
 		String[] arrString = StringUtil.toStringArray(arr);
 		StringUtil.lNormalize(arrString,'0');
 
+
 		HashMap<Integer, ArrayList<String>> hm = new HashMap<>();
-
 		for (int i=StringUtil.maxLength(arrString)-1; i>=0; i--){
-			for (int j=arrString.length-1; j>=0; j--){
-				if (hm.get((int) arrString[j].charAt(i)) == null){
-					ArrayList<String> arrayList = new ArrayList<String>();
-					arrayList.add(arrString[j]);
-					hm.put((int) arrString[j].charAt(i), arrayList);
-				} else {
-					ArrayList<String> arrayList = hm.get((int) arrString[j].charAt(i));
-					arrayList.add(arrString[j]);
-					hm.put((int) arrString[j].charAt(i), arrayList);
+			for (int j=0; j<arrString.length; j++){
+				ArrayList<String> arrayListExist =  hm.get(Character.getNumericValue(arrString[j].charAt(i)));
+
+				if (arrayListExist == null) {
+					ArrayList<String> newArrayList = new ArrayList<>();
+					newArrayList.add(arrString[j]);
+					hm.put(Character.getNumericValue(arrString[j].charAt(i)), newArrayList);
+				}else {
+					arrayListExist.add(arrString[j]);
+					hm.put(Character.getNumericValue(arrString[j].charAt(i)), arrayListExist);
 				}
 			}
 
-			for(Map.Entry<Integer, ArrayList<String>> entry:hm.entrySet()){
-				Integer key = entry.getKey();
-				ArrayList<String> value = entry.getValue();
-				System.out.println("key=" + key);
-				for(int p=0; p<value.size();p++)
-				{
-					System.out.print(value.get(p)+(i<value.size()-1?",":""));
+			int iteration = 0;
+			while (iteration<arr.length) {
+				for(Map.Entry<Integer, ArrayList<String>> entry:hm.entrySet()){
+					Integer key = entry.getKey();
+					ArrayList<String> value = entry.getValue();
+					for(int p=0; p<value.size();p++)
+					{
+						arrString[iteration] = value.get(p);
+						iteration++;
+					}
 				}
 			}
-			break;
+			hm.clear();
+
+		}
+
+		int[] arrayInt = StringUtil.toIntArray(arrString);
+		for (int i=0; i<arrayInt.length;i++){
+			arr[i] = arrayInt[i];
 		}
 	}
 
@@ -43,7 +53,6 @@ public class RadixSortEjerc
 	{
 		int arr[]={16223,898,13,906,235,23,9,1532,6388,2511,8};
 		radixSort(arr);
-
 
 		for(int i=0; i<arr.length;i++)
 		{
